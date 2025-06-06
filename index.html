@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OM - Form</title>
+  <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet" />
+   <link rel="icon" href="https://i.imgur.com/SZ4dodg.gif">
+  <!-- CSS do Flatpickr -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<!-- Tema opcional escuro -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
+
+<!-- JS do Flatpickr -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #231d0e, #231d0e);
+      color: #fff;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+    .form-left, .form-right {
+      flex: 1;
+      min-width: 300px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+   input[type="text"], textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus, textarea:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #c4a453;
+  box-shadow: 0 0 8px #e5c062;
+}
+
+input[type="datetime-local"] {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 10px;
+  width: 100%;
+  transition: all 0.3s ease;
+  outline: none;
+  font-size: 15px;
+  position: relative;
+  z-index: 1;
+}
+
+input[type="datetime-local"]::placeholder {
+  color: #ccc;
+}
+
+input[type="datetime-local"]:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #c4a453;
+  box-shadow: 0 0 8px #e5c062;
+  color: #fff;
+}
+
+
+    textarea {
+      resize: none;
+      height: 100px;
+    }
+    .add-student {
+      display: flex;
+      gap: 10px;
+    }
+    .add-student input {
+      flex: 1;
+    }
+    .student-list {
+      margin-top: 15px;
+    }
+    .student-card {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .status-button {
+      background: #9b8344;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+    }
+    .status-button.reprovado {
+      background: #e74c3c;
+    }
+    .status-button.caiu {
+      background: #f39c12;
+    }
+    .submit-btn {
+      background: #9b8344;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .form-group i {
+      margin-right: 6px;
+      color: #ccc;
+    }
+
+  select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  outline: none;
+  transition: all 0.3s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,<svg fill='%23ccc' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+}
+
+select:focus {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: #c4a453;
+  box-shadow: 0 0 8px #e5c062;
+  transform: scale(1.01);
+}
+
+select option {
+  background-color: #9b8344;
+  color: white;
+}
+
+#loading-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #231d0e;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .loading-image {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .loading-image img {
+      width: 32px;
+      height: 32px;
+      opacity: 0.2;
+      animation: bounce 1.5s infinite ease-in-out;
+    }
+
+    .loading-image img:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    .loading-image img:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+
+    .loading-image img:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+
+    @keyframes bounce {
+      0%, 80%, 100% {
+        transform: scale(0.8);
+        opacity: 0.2;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 1;
+      }
+    }
+
+    .loading-text {
+      font-size: 18px;
+      color: white;
+      margin-top: 10px;
+    }
+
+<style>
+/* Fundo do calendário */
+.flatpickr-calendar {
+  background: #2f2a1f;
+  border: 1px solid #c4a453;
+  color: white;
+}
+
+/* Datas normais */
+.flatpickr-day {
+  color: white;
+  border-radius: 8px;
+}
+
+/* Data selecionada */
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange {
+  background: #c4a453;
+  color: black;
+}
+
+/* Hover nas datas */
+.flatpickr-day:hover {
+  background: #9b8344;
+  color: rgb(11, 4, 4);
+}
+
+/* Cabeçalho */
+.flatpickr-months {
+  background: #1e1b14;
+  color: #c4a453;
+}
+
+/* Botões de navegação */
+.flatpickr-prev-month, .flatpickr-next-month {
+  color: #c4a453;
+}
+
+</style>
+
+
+</head>
+<body>
+     <div id="loading-screen">
+        <div class="loading-image">
+          <img src="https://i.imgur.com/SZ4dodg.gif" alt="Loading">
+          <img src="https://i.imgur.com/SZ4dodg.gif" alt="Loading">
+          <img src="https://i.imgur.com/SZ4dodg.gif" alt="Loading">
+        </div>
+
+
+</div>
+  <form class="container">
+    <div class="form-left">
+      <div class="form-group">
+        <label><i class='bx bx-calendar'></i>Data e hora de início</label>
+       <input type="text" id="dataHora" placeholder="Selecione a data e hora">
+      </div>
+
+      <div class="form-group">
+        <label><i class='bx bx-book-content'></i>Curso</label>
+        <select id="curso">
+          <option value="">Selecione o curso</option>
+          <option>Aula de Segurança Operacional</option>
+          <option>Aula de Segurança Digital</option>
+          <option>Aula de Valorização dos Pilares</option>
+          <option>Especialização Militar</option>
+          <option>Administração Interpessoal</option>
+          <option>Aptidão Judiciária</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label><i class='bx bx-user'></i>Conselheiro(a)</label>
+        <input type="text" id="conselheiro" placeholder="Seu nickname" />
+      </div>
+
+      <div class="form-group">
+        <label><i class='bx bx-comment-detail'></i>Observações</label>
+        <textarea id="observacoes" placeholder="Insira suas observações sobre a aula aplicada..."></textarea>
+      </div>
+    </div>
+
+    <div class="form-right">
+      <div class="form-group">
+        <label><i class='bx bx-user-plus'></i>Adicionar aluno</label>
+        <div class="add-student">
+          <input type="text" id="nomeAluno" placeholder="Nickname do aluno" />
+          <button type="button" onclick="adicionarAluno()" class="status-button"><i class='bx bx-user-plus'></i></button>
+        </div>
+      </div>
+      <div id="listaAlunos" class="student-list"></div>
+    </div>
+
+    <div class="form-group" style="width: 100%">
+      <button type="submit" class="submit-btn"><i class='bx bx-save'></i> Postar aula</button>
+    </div>
+  </form>
+
+ <script>
+  const listaAlunos = document.getElementById('listaAlunos');
+  const inputAluno = document.getElementById('nomeAluno');
+
+ function adicionarAluno() {
+  const nome = inputAluno.value.trim();
+  if (!nome) return;
+
+  const card = document.createElement('div');
+  card.className = 'student-card';
+
+  const nomeSpan = document.createElement('span');
+  nomeSpan.textContent = nome;
+
+const statusBtn = document.createElement('button');
+statusBtn.setAttribute('type', 'button');
+statusBtn.className = 'status-button aprovado';
+statusBtn.textContent = 'Aprovado';
+statusBtn.onclick = () => {
+  if (statusBtn.textContent === 'Aprovado') {
+    statusBtn.textContent = 'Reprovado';
+    statusBtn.className = 'status-button reprovado';
+  } else if (statusBtn.textContent === 'Reprovado') {
+    statusBtn.textContent = 'Caiu';
+    statusBtn.className = 'status-button caiu';
+  } else {
+    statusBtn.textContent = 'Aprovado';
+    statusBtn.className = 'status-button aprovado';
+  }
+};
+
+const excluirBtn = document.createElement('button');
+excluirBtn.setAttribute('type', 'button');
+excluirBtn.innerHTML = "<i class='bx bx-trash'></i>";
+excluirBtn.style.background = "transparent";
+excluirBtn.style.border = "none";
+excluirBtn.style.color = "white";
+excluirBtn.style.cursor = "pointer";
+excluirBtn.onclick = () => card.remove();
+
+
+
+  card.appendChild(nomeSpan);
+  card.appendChild(statusBtn);
+  card.appendChild(excluirBtn);
+
+  listaAlunos.appendChild(card);
+  inputAluno.value = '';
+}
+
+
+  function enviarFormulario(e) {
+    e.preventDefault();
+
+    const dataHora = document.getElementById('dataHora').value;
+    const curso = document.getElementById('curso').value;
+    const conselheiro = document.getElementById('conselheiro').value;
+    const observacoes = document.getElementById('observacoes').value;
+
+    const alunos = [];
+    const alunoCards = document.querySelectorAll('.student-card');
+    alunoCards.forEach(card => {
+      const nome = card.querySelector('span').textContent;
+      const status = card.querySelector('button').textContent;
+      alunos.push({ nome, status });
+    });
+
+    const payload = {
+      dataHora,
+      curso,
+      conselheiro,
+      observacoes,
+      alunos
+    };
+
+    fetch("https://script.google.com/macros/s/AKfycbwnkpTeF0gj1D_bqOVq9BrVSuEGEbOffKRRq3eGbMp--slVJXUw1Eoq5Y2kvJBtancI/exec", {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    }).then(() => {
+      alert("Aula enviada com sucesso!");
+    }).catch(err => {
+      console.error("Erro ao enviar:", err);
+      alert("Erro ao enviar aula.");
+    });
+  }
+
+</script>
+
+ <script>
+                // Aguarda 3 segundos antes de exibir o conteúdo principal
+                window.addEventListener("load", () => {
+                    setTimeout(() => {
+                        document.getElementById('loading-screen').style.display = 'none'; // Esconde a tela de carregamento
+                        document.getElementById('main-content').style.display = 'flex'; // Mostra o conteúdo principal
+                    }, 3000);
+                });
+
+flatpickr("#dataHora", {
+  enableTime: true,
+  dateFormat: "Y-m-d H:i",
+  time_24hr: true,
+  locale: "pt" // Para português, se quiser
+});
+
+
+            </script>
+
+</body>
+</html>
